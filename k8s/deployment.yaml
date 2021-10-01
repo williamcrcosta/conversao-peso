@@ -1,0 +1,33 @@
+# Deployment da Aplicação Web
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversao-peso
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: conversao-peso
+  template:
+    metadata:
+      labels:
+        app: conversao-peso
+    spec:
+      containers:
+      - name: conversao-peso
+        image: edesantomaz/conversao-peso:v1
+        ports:
+        - containerPort: 80
+---
+# Service da Aplicação Web
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversao-peso
+spec:
+  selector:
+    app: conversao-peso
+  ports:
+  - port: 80
+    nodePort: 30000
+  type: NodePort
